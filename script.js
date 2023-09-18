@@ -1,23 +1,36 @@
 const container = document.querySelector('#container');
-const gridDivs = [];
+const changeSizeBtn = document.querySelector('#change-size-btn');
+let gridDivs = [];
 
-for (let column = 0; column < 16; column++)
+function generateNewGrid(size)
 {
-    let columnDiv = document.createElement('div');
-    columnDiv.classList.add('column');
-    columnDiv.setAttribute('data-column', column);
-
-    for (let row = 0; row < 16; row++)
+    // Clear previous grid if there was one.
+    while (container.firstChild)
     {
-        let gridDiv = document.createElement('div');
-        gridDiv.classList.add('grid-square');
-        gridDiv.setAttribute('data-column', column);
-        gridDiv.setAttribute('data-row', row);
-        columnDiv.appendChild(gridDiv);
-        gridDivs.push(gridDiv);
+        container.removeChild(container.firstChild);
     }
+    gridDivs = [];
 
-    container.appendChild(columnDiv);
+    for (let column = 0; column < size; column++)
+    {
+        let columnDiv = document.createElement('div');
+        columnDiv.classList.add('column');
+        columnDiv.setAttribute('data-column', column);
+
+        for (let row = 0; row < size; row++)
+        {
+            let gridDiv = document.createElement('div');
+            gridDiv.classList.add('grid-square');
+            gridDiv.setAttribute('data-column', column);
+            gridDiv.setAttribute('data-row', row);
+            columnDiv.appendChild(gridDiv);
+            gridDivs.push(gridDiv);
+        }
+
+        container.appendChild(columnDiv);
+        
+        gridDivs.forEach(gridBox => gridBox.addEventListener('mouseover', updateGridBox));
+    }
 }
 
 function updateGridBox(e)
@@ -25,4 +38,9 @@ function updateGridBox(e)
     e.target.classList.add('colored');
 }
 
-gridDivs.forEach(gridBox => gridBox.addEventListener('mouseover', updateGridBox));
+changeSizeBtn.addEventListener('click', e => {
+    let size = prompt('What size grid would you like?');
+    generateNewGrid(size);
+})
+
+generateNewGrid(16);
