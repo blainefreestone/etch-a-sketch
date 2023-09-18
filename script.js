@@ -1,3 +1,4 @@
+const style = document.createElement('style');
 const container = document.querySelector('#container');
 const changeSizeBtn = document.querySelector('#change-size-btn');
 let gridDivs = [];
@@ -10,6 +11,19 @@ function generateNewGrid(size)
         container.removeChild(container.firstChild);
     }
     gridDivs = [];
+
+    style.innerHTML = `
+    .grid-square {
+        background-color: gainsboro;
+        height: ${500 / size}px;
+        width: ${500 / size}px;
+    }
+    
+    .grid-square.colored {
+        background-color: black;
+    }
+    `
+    document.head.appendChild(style);
 
     for (let column = 0; column < size; column++)
     {
@@ -39,8 +53,16 @@ function updateGridBox(e)
 }
 
 changeSizeBtn.addEventListener('click', e => {
-    let size = prompt('What size grid would you like?');
-    generateNewGrid(size);
+    while (true)
+    {
+        let size = prompt('What size grid would you like?');
+        if (isNaN(size) || size > 100)
+        {
+            alert("Please enter a valid number under 100.")
+        }
+        generateNewGrid(size);
+        break;
+    }
 })
 
 generateNewGrid(16);
