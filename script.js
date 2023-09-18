@@ -14,13 +14,8 @@ function generateNewGrid(size)
 
     style.innerHTML = `
     .grid-square {
-        background-color: gainsboro;
         height: ${500 / size}px;
         width: ${500 / size}px;
-    }
-    
-    .grid-square.colored {
-        background-color: black;
     }
     `
     document.head.appendChild(style);
@@ -37,6 +32,8 @@ function generateNewGrid(size)
             gridDiv.classList.add('grid-square');
             gridDiv.setAttribute('data-column', column);
             gridDiv.setAttribute('data-row', row);
+            gridDiv.setAttribute('style', 'background-color: rgb(220,220,220);')
+            gridDiv.setAttribute('data-updateNumber', '1');
             columnDiv.appendChild(gridDiv);
             gridDivs.push(gridDiv);
         }
@@ -49,7 +46,14 @@ function generateNewGrid(size)
 
 function updateGridBox(e)
 {
-    e.target.classList.add('colored');
+    let currentUpdateNumber = Number(e.target.getAttribute('data-updateNumber'));
+    console.log(currentUpdateNumber);
+
+    if (currentUpdateNumber >= 11) return;
+
+    e.target.setAttribute('data-updateNumber', currentUpdateNumber + 1);
+    rgbValue = 220 - (20 * currentUpdateNumber);
+    e.target.setAttribute('style', `background-color: rgb(${rgbValue}, ${rgbValue}, ${rgbValue})`);
 }
 
 changeSizeBtn.addEventListener('click', e => {
