@@ -1,0 +1,13 @@
+.column {
+    display: flex;
+}
+
+.grid-square {
+    height: 25px;
+    width: 25px;
+    background-color: gainsboro;
+}
+
+.grid-square.colored {
+    background-color: black;
+}
